@@ -38,21 +38,25 @@
             <!-- Review Submission Form -->
             <div class="bg-gray-800 p-6 rounded-xl shadow-lg shadow-green-500/50">
                 <h2 class="text-2xl font-bold text-green-400 mb-6">Write a Review</h2>
-                <form id="review-form" class="space-y-6">
+                <form action="/review/<%= product._id %>" method="post" id="review-form" class="space-y-6">
                     <div>
                         <label for="rating" class="block text-lg font-semibold text-gray-300 mb-2">Your Rating</label>
                         <div class="rating">
-                            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-                            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400"
-                                checked="checked" />
-                            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-                            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-                            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                            <input type="radio" name="review[rating]" class="mask mask-star-2 bg-orange-400"
+                                value="1" />
+                            <input type="radio" name="review[rating]" class="mask mask-star-2 bg-orange-400"
+                                checked="checked" value="2" />
+                            <input type="radio" name="review[rating]" class="mask mask-star-2 bg-orange-400"
+                                value="3" />
+                            <input type="radio" name="review[rating]" class="mask mask-star-2 bg-orange-400"
+                                value="4" />
+                            <input type="radio" name="review[rating]" class="mask mask-star-2 bg-orange-400"
+                                value="5" />
                         </div>
                     </div>
                     <div>
                         <label for="comment" class="block text-lg font-semibold text-gray-300 mb-2">Your Comment</label>
-                        <textarea id="comment" name="comment" rows="4"
+                        <textarea id="comment" name="review[comment]" rows="4"
                             class="w-full bg-gray-700 text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
                             placeholder="Share your thoughts about the product..."></textarea>
                     </div>

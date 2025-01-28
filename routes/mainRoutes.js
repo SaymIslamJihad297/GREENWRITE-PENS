@@ -3,6 +3,7 @@ const { renderHomePage, renderRegisterPage, registerUser, renderLoginPage, login
 const passport = require('passport');
 const { isLoggedIn, goProfile, preserveCart } = require('../middleware');
 const { renderProductDetails, addItemToCart, renderCart, removeFromCart } = require('../controllers/detailsController');
+const { addReview } = require('../controllers/reviewController');
 const router = express.Router();
 
 
@@ -27,4 +28,9 @@ router.get('/product/:id', renderProductDetails);
 router.post('/addtocart/:id', addItemToCart);
 router.get('/cart', renderCart);
 router.get('/removefromcart/:id', removeFromCart);
+
+
+router.post('/review/:prodid', isLoggedIn, addReview);
+
+
 module.exports = router;

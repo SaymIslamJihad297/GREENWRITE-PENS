@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV != "proccess") {
     require('dotenv').config();
 }
+const bodyParser = require("body-parser");
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -11,6 +12,7 @@ const flash = require('connect-flash');
 const passport = require('passport')
 const localStrategy = require('passport-local');
 const methodOverride = require('method-override');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const User = require('./models/User');
 const mainRoutes = require('./routes/mainRoutes');
@@ -39,6 +41,7 @@ app.use(express.urlencoded({ extended: true, limit: '50kb' }));
 app.use(express.json({ limit: '50kb' }));
 app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
+app.use(bodyParser.json());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -57,6 +60,26 @@ app.use((req, res, next) => {
 
 app.use('/', mainRoutes);
 app.use('/admin', adminRoutes);
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API);
+app.post("/api/chat", async (req, res) => {
+    const { message } = req.body;
+
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const result = await model.generateContent(message);
+
+        res.json({ reply: result.response.text() });
+    } catch (error) {
+        console.error("Error:", error.message);
+        res.status(500).json({ error: "Failed to generate a response." });
+    }
+});
+
+app.get("/ai/greenwrite", (req, res) => {
+    res.render("./ai/index.ejs");
+});
 
 
 

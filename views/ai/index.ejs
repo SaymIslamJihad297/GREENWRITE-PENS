@@ -1,0 +1,42 @@
+<%- layout('./layout/boilerplate.ejs') %>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        async function sendMessage() {
+            const userMessage = document.getElementById("userMessage").value;
+            const chatWindow = document.getElementById("chatWindow");
+
+            chatWindow.innerHTML += `<div class=\"p-3 bg-blue-600 text-white rounded-lg self-end\">${userMessage}</div>`;
+            document.getElementById("userMessage").value = ""; // Clear input
+
+            chatWindow.innerHTML += `<div id="loading" class="text-green-500 font-bold bg-black rounded-lg p-5">Typing...</div>`;
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            try {
+                const response = await axios.post("/api/chat", { message: userMessage });
+                document.getElementById("loading").remove();
+
+                chatWindow.innerHTML += `<div class=\"p-3 bg-gray-200 text-black rounded-lg self-start\">${response.data.reply}</div>`;
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            } catch (error) {
+                console.error(error);
+                chatWindow.innerHTML += `<div class="text-red-500">Error: Unable to get response</div>`;
+                document.getElementById("loading").remove();
+            }
+        }
+    </script>
+
+    <section class="bg-green-600 bg-opacity-30 backdrop-blur-md flex items-center justify-center min-h-screen">
+        <div class="w-full max-w-xl bg-white shadow-md rounded-lg p-6 flex flex-col">
+            <h1 class="text-2xl font-bold text-center mb-6 text-gray-700">GreenWrite AI Chat</h1>
+            <div id="chatWindow"
+                class="flex flex-col gap-4 h-80 overflow-y-auto p-4 bg-gray-500 rounded-lg border border-gray-200 mb-4">
+            </div>
+            <div class="flex items-center gap-2">
+                <input id="userMessage" type="text" placeholder="Type your message..."
+                    class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200" />
+                <button onclick="sendMessage()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    Send
+                </button>
+            </div>
+        </div>
+    </section>
