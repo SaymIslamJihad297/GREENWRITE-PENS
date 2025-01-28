@@ -1,0 +1,117 @@
+<section
+    class="bg-green-600 bg-opacity-10 shadow-green-500/50 backdrop-blur-md text-white p-4 shadow-lg sticky top-0 z-50 hover:shadow-green-500/70">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold"><a href="/">GreenWrite Pens</a></h1>
+        <nav class="hidden md:flex space-x-6">
+            <a href="/cart"
+                class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span
+                    class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+            </a>
+            <% if(currUser && currUser.isAdmin){ %>
+                <a href="/admin/dashboard"
+                    class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                    Admin
+                    <span
+                        class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+                </a>
+                <% } %>
+                    <% if(currUser){ %>
+                        <a href="/profile"
+                            class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                            Profile
+                            <span
+                                class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+                        </a>
+                        <% } %>
+                            <a href="/#features"
+                                class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                                Features
+                                <span
+                                    class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+                            </a>
+                            <a href="/#products"
+                                class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                                Products
+                                <span
+                                    class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+                            </a>
+                            <a href="/#about"
+                                class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                                About
+                                <span
+                                    class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+                            </a>
+                            <a href="/#contact"
+                                class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                                Contact
+                                <span
+                                    class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+                            </a>
+                            <% if(!isLoggedIn){ %>
+                                <a href="/login"
+                                    class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                                    Login
+                                    <span
+                                        class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+                                </a>
+                                <% }else{ %>
+                                    <a href="/logout"
+                                        class="relative group text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">
+                                        Logout
+                                        <span
+                                            class="absolute left-0 -bottom-1 w-full h-1 bg-green-300 scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+                                    </a>
+                                    <% } %>
+        </nav>
+
+        <div class="md:hidden flex items-center">
+            <button id="hamburger-icon" class="text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden flex flex-col items-center backdrop-blur-md text-white hidden">
+        <a href="/cart" class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center"><i
+                class="fa-solid fa-cart-shopping"></i></a>
+        <% if(currUser && currUser.isAdmin){ %>
+            <a href="/admin/dashboard"
+                class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center">Admin</a>
+            <% } %>
+                <% if(currUser){ %>
+                    <a href="/profile"
+                        class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center">Profile</a>
+                    <% } %>
+                        <a href="/#features"
+                            class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center">Features</a>
+                        <a href="/#products"
+                            class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center">Products</a>
+                        <a href="/#about"
+                            class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center">About</a>
+                        <a href="/#contact"
+                            class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center">Contact</a>
+                        <% if(!isLoggedIn){ %>
+                            <a href="/login"
+                                class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center">Login</a>
+                            <% }else{ %>
+                                <a href="/logout"
+                                    class="text-lg font-semibold py-2 hover:bg-green-700 w-full text-center">Logout</a>
+                                <% } %>
+    </div>
+</section>
+
+
+<script>
+    // JavaScript to toggle the mobile menu visibility
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburgerIcon.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>

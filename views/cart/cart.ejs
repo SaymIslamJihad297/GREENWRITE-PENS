@@ -1,0 +1,69 @@
+<%- layout('./layout/boilerplate.ejs') %>
+
+    <section class="bg-gradient-to-b from-green-600 to-gray-900 text-white min-h-screen">
+        <section class="container mx-auto py-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-4xl font-bold text-green-400">Your Cart</h1>
+                <a href="/#products">
+                    <button
+                        class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg shadow-lg shadow-green-500/50 transition duration-300 transform hover:scale-105">
+                        Continue Shopping
+                    </button>
+                </a>
+            </div>
+
+            <!-- Cart Items -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-xl shadow-green-500/50">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Cart Items All -->
+                    <% let subTotal=0 %>
+                        <% for(item of items){ %>
+                            <div class="flex items-center bg-gray-700 rounded-lg p-4">
+                                <img src="<%= item.image %>" alt="Product Image" class="w-20 h-20 rounded-lg mr-4">
+                                <div class="flex-1">
+                                    <h2 class="text-xl font-semibold text-green-300">
+                                        <%= item.title %>
+                                    </h2>
+                                    <p class="text-gray-400">GreenWrite Pens</p>
+                                    <p class="text-green-300 font-bold mt-2">BDT <%= item.price * item.quantity %>
+                                            &#2547;
+                                    </p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <label for="quantity1" class="text-gray-400 text-sm">Quantity</label>
+                                    <input type="number" id="quantity1" value="<%= item.quantity %>" disabled min="1"
+                                        class="w-16 bg-gray-600 text-center text-gray-300 rounded-md py-1">
+                                    <button class="text-red-400 hover:text-red-500 mt-2"><a
+                                            href="/removefromcart/<%= item._id %>">Remove</a></button>
+                                </div>
+                                <% subTotal +=item.price * item.quantity %>
+                            </div>
+                            <% } %>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="mt-8 bg-gray-900 p-6 rounded-lg">
+                    <h2 class="text-2xl font-bold text-green-400 mb-4">Order Summary</h2>
+                    <div class="flex justify-between text-lg">
+                        <p>Subtotal:</p>
+                        <p class="text-green-300 font-bold">
+                            BDT <%= subTotal %>&#2547;
+                        </p>
+                    </div>
+                    <div class="flex justify-between text-lg">
+                        <p>Shipping:</p>
+                        <p class="text-green-300 font-bold">BDT 50&#2547;</p>
+                    </div>
+                    <div class="flex justify-between text-lg border-t border-gray-600 mt-4 pt-4">
+                        <p class="font-bold">Total:</p>
+                        <p class="text-green-300 font-bold">BDT <%= subTotal+50 %>&#2547;</p>
+                    </div>
+                    <button
+                        class="bg-green-500 hover:bg-green-600 w-full py-3 rounded-lg text-white mt-6 shadow-lg shadow-green-500/50 transition duration-300 transform hover:scale-105">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </section>
+    </section>

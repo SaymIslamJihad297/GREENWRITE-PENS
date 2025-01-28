@@ -1,0 +1,65 @@
+<%- layout('./layout/boilerplate.ejs') %>
+    <section class="bg-green-600 bg-opacity-30 backdrop-blur-md min-h-screen text-white">
+        <div class="container mx-auto py-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">User Profile</h1>
+                <a href="/logout">
+                    <button
+                        class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg shadow-lg shadow-green-500/50 transition duration-300 transform hover:scale-105">
+                        Logout
+                    </button>
+                </a>
+            </div>
+
+            <!-- Profile and Cart Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Profile Section -->
+                <div class="bg-gray-800 p-6 rounded-xl shadow-lg shadow-green-500/50">
+                    <h2 class="text-2xl font-bold text-green-400 mb-4">Profile Details</h2>
+                    <form id="profile-form" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-lg font-semibold text-gray-300 mb-2">Name</label>
+                            <input type="text" id="name" name="name" value="John Doe"
+                                class="w-full bg-gray-700 text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition" />
+                        </div>
+                        <div>
+                            <label for="username"
+                                class="block text-lg font-semibold text-gray-300 mb-2">Username</label>
+                            <input type="text" id="username" name="username" value="johndoe" disabled
+                                class="w-full bg-gray-700 text-gray-400 rounded-lg p-3 cursor-not-allowed" />
+                        </div>
+                        <button type="submit"
+                            class="bg-green-600 hover:bg-green-700 w-full py-3 rounded-lg text-white transition duration-300 transform hover:scale-105">
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Cart Section -->
+                <div class="bg-gray-800 p-6 rounded-xl shadow-lg shadow-green-500/50">
+                    <h2 class="text-2xl font-bold text-green-400 mb-4">Your Cart</h2>
+                    <ul class="space-y-4">
+                        <li class="bg-gray-700 p-4 rounded-lg flex justify-between items-center">
+                            <span>GreenWrite Pen - Pack of 5</span>
+                            <span class="font-semibold text-green-300">$10.00</span>
+                        </li>
+                        <li class="bg-gray-700 p-4 rounded-lg flex justify-between items-center">
+                            <span>GreenWrite Notebook</span>
+                            <span class="font-semibold text-green-300">$5.00</span>
+                        </li>
+                        <li class="bg-gray-700 p-4 rounded-lg flex justify-between items-center">
+                            <span>Eco-Friendly Bookmark</span>
+                            <span class="font-semibold text-green-300">$2.00</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6">
+                        <button
+                            class="bg-green-600 hover:bg-green-700 w-full py-3 rounded-lg text-white transition duration-300 transform hover:scale-105">
+                            View Full Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

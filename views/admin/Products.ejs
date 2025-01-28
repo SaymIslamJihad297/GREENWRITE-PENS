@@ -1,0 +1,43 @@
+<%- layout('./layout/boilerplate.ejs') %>
+    <section class="min-h-screen">
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg shadow-green-500/50 mt-10">
+            <h2 class="text-2xl font-bold text-green-400 mb-6">Products List</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-left text-gray-300">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="py-3 px-6 text-lg">Title</th>
+                            <th class="py-3 px-6 text-lg">Price</th>
+                            <th class="py-3 px-6 text-lg">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(product of products){ %>
+                            <tr class="border-b border-gray-700">
+                                <td class="py-3 px-6">
+                                    <%= product.title %>
+                                </td>
+                                <td class="py-3 px-6">
+                                    <%= product.price %>
+                                </td>
+                                <td class="py-3 px-6">
+                                    <button class="text-green-400 hover:underline">Edit</button>
+                                    <button class="text-red-400 hover:underline ml-4">Delete</button>
+                                </td>
+                            </tr>
+                            <% } %>
+                                <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-center mt-10">
+                <a href="/admin/addnewproduct">
+                    <button
+                        class="btn btn-outline btn-success hover:bg-green-700 text-white px-8 py-3 rounded-lg transition duration-300 transform hover:scale-105 hover:shadow-[0_0_10px_rgba(34,_197,_94,_0.7),_0_0_20px_rgba(34,_197,_94,_0.7)]">
+                        Add new Product
+                    </button>
+                </a>
+            </div>
+
+        </div>
+    </section>

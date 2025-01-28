@@ -1,0 +1,42 @@
+<%- layout('./layout/boilerplate.ejs') %>
+    <section class="min-h-screen">
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg shadow-green-500/50 mt-10">
+            <h2 class="text-2xl font-bold text-green-400 mb-6">Users List</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-left text-gray-300">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="py-3 px-6 text-lg">Name</th>
+                            <th class="py-3 px-6 text-lg">Username</th>
+                            <th class="py-3 px-6 text-lg">Email</th>
+                            <th class="py-3 px-6 text-lg">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(user of allUsers){ %>
+                            <tr class="border-b border-gray-700">
+                                <td class="py-3 px-6">
+                                    <%= user.name %>
+                                </td>
+                                <td class="py-3 px-6">
+                                    <%= user.username %>
+                                </td>
+                                <td class="py-3 px-6">
+                                    <%= user.email %>
+                                </td>
+                                <td class="py-3 px-6">
+                                    <form action="/admin/user/<%= user._id %>">
+                                        <button class="text-green-400 hover:underline">Edit</button>
+                                    </form>
+                                    <form action="/admin/user/<%= user._id %>?_method=DELETE" , method="POST">
+                                        <button class="text-red-400 hover:underline ml-4">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% } %>
+                                <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
