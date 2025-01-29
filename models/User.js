@@ -17,6 +17,10 @@ const userSchema = new Schema({
         required: true,
         unique: true,
     },
+    googleId: {
+        type: String,
+        unique: true
+    },
     cart: [{
         productId: {
             type: Schema.Types.ObjectId,
@@ -28,7 +32,7 @@ const userSchema = new Schema({
         type: Boolean,
         default: false,
     }
-})
+});
 
 userSchema.plugin(passportLocalMongoose);
 

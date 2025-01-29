@@ -8,7 +8,7 @@ module.exports.renderProductDetails = asyncWrap(async (req, res) => {
     let id = req.params.id;
     let product = await Products.findById(id).populate({ path: "reviews", populate: "owner" });
     // console.log(product);
-    res.render('./details/productDetails.ejs', { product });
+    res.render('./products/productDetails.ejs', { product });
 })
 
 module.exports.addItemToCart = asyncWrap(async (req, res) => {

@@ -21,8 +21,10 @@
                                     <%= product.price %>
                                 </td>
                                 <td class="py-3 px-6">
-                                    <button class="text-green-400 hover:underline">Edit</button>
-                                    <button class="text-red-400 hover:underline ml-4">Delete</button>
+                                    <form action="/admin/product/<%= product._id %>"><button
+                                            class="text-green-400 hover:underline">Edit</button></form>
+                                    <form action="/admin/product/<%= product._id %>?_method=DELETE" method="post">
+                                        <button class="text-red-400 hover:underline ml-4">Delete</button></form>
                                 </td>
                             </tr>
                             <% } %>
