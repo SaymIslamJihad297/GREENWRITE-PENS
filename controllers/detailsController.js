@@ -5,7 +5,8 @@ const { default: mongoose } = require('mongoose');
 
 module.exports.renderProductDetails = async (req, res) => {
     let id = req.params.id;
-    let product = await Products.findById(id);
+    let product = await Products.findById(id).populate({ path: "reviews", populate: "owner" });
+    // console.log(product);
     res.render('./details/productDetails.ejs', { product });
 }
 

@@ -7,6 +7,15 @@ module.exports.isLoggedIn = (req, res, next) => {
     }
 }
 
+module.exports.isNotLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        req.flash("error", "You need to login first");
+        res.redirect('/login');
+    }
+}
+
 module.exports.isAdminUser = (req, res, next) => {
     if (req.isAuthenticated() && res.locals.currUser.isAdmin) {
         next();

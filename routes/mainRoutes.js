@@ -1,9 +1,9 @@
 const express = require('express');
 const { renderHomePage, renderRegisterPage, registerUser, renderLoginPage, loginUser, logOutUser, renderProfile } = require('../controllers/userController');
 const passport = require('passport');
-const { isLoggedIn, goProfile, preserveCart } = require('../middleware');
+const { isLoggedIn, goProfile, preserveCart, isNotLoggedIn } = require('../middleware');
 const { renderProductDetails, addItemToCart, renderCart, removeFromCart } = require('../controllers/detailsController');
-const { addReview } = require('../controllers/reviewController');
+const { addReview, deleteReview } = require('../controllers/reviewController');
 const router = express.Router();
 
 
@@ -30,7 +30,7 @@ router.get('/cart', renderCart);
 router.get('/removefromcart/:id', removeFromCart);
 
 
-router.post('/review/:prodid', isLoggedIn, addReview);
-
+router.post('/review/:id', isNotLoggedIn, addReview);
+router.delete('/review/:prodid/:id', isNotLoggedIn, deleteReview);
 
 module.exports = router;

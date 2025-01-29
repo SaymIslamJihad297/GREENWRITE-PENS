@@ -72,24 +72,27 @@
                 <h2 class="text-2xl font-bold text-green-400 mb-6">Reviews</h2>
                 <ul class="space-y-4">
                     <!-- Single Review -->
-                    <li class="bg-gray-700 p-4 rounded-lg">
-                        <div class="flex items-center space-x-4">
-                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
-                            <span class="text-gray-400 text-sm">John Doe</span>
-                        </div>
-                        <p class="mt-2 text-gray-300">
-                            Amazing product! The concept is incredible, and the pen writes smoothly.
-                        </p>
-                    </li>
-                    <li class="bg-gray-700 p-4 rounded-lg">
-                        <div class="flex items-center space-x-4">
-                            <span class="text-yellow-400">⭐⭐⭐⭐</span>
-                            <span class="text-gray-400 text-sm">Jane Smith</span>
-                        </div>
-                        <p class="mt-2 text-gray-300">
-                            I love the idea of planting pens! Would recommend it to my friends.
-                        </p>
-                    </li>
+                    <% for(review of product.reviews){ %>
+                        <li class="bg-gray-700 p-4 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-yellow-400">
+                                    <% for(let i=1; i<=review.rating; i++){ %>⭐<% } %>
+                                </span>
+                                <span class="text-gray-400 text-sm">
+                                    <%= review.owner.name %>
+                                </span>
+                            </div>
+                            <p class="mt-2 text-gray-300">
+                                <%= review.comment %>
+                            </p>
+                            <% if(currUser && currUser._id.equals(review.owner._id)){ %>
+                                <form action="/review/<%= product._id %>/<%= review._id %>?_method=DELETE"
+                                    method="POST">
+                                    <button class="btn mt-3">Delete</button>
+                                </form>
+                                <% } %>
+                        </li>
+                        <% } %>
                 </ul>
             </div>
         </div>
