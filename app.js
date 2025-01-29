@@ -13,6 +13,7 @@ const passport = require('passport')
 const localStrategy = require('passport-local');
 const methodOverride = require('method-override');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const ExpressError = require('./utils/ExpressError');
 
 const User = require('./models/User');
 const mainRoutes = require('./routes/mainRoutes');
@@ -84,10 +85,14 @@ app.get("/ai/greenwrite", (req, res) => {
 
 
 app.all('*', (req, res, next) => {
-    req.flash("error", "Page not found");
-    res.redirect('/');
-    next();
+    next(new ExpressError(404, "Page not found"));
 })
+
+app.use((err, req, res, next) => {
+    let { status = 500, message = "Some error happend" } = err;
+    res.status(status).render('error.ejs', { status, message });
+})
+
 async function main() {
     mongoose.connect(dbUrl);
 }

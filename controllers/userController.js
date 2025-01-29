@@ -1,16 +1,17 @@
 const User = require('../models/User');
 const Products = require('../models/Product');
+const asyncWrap = require('../utils/asyncWrap');
 
-module.exports.renderHomePage = async (req, res) => {
+module.exports.renderHomePage = asyncWrap(async (req, res) => {
     let products = await Products.find();
     res.render("./home/homeMain.ejs", { products });
-}
+})
 
 
 module.exports.renderRegisterPage = (req, res) => {
     res.render('./user/userRegister.ejs');
 }
-module.exports.registerUser = async (req, res, next) => {
+module.exports.registerUser = asyncWrap(async (req, res, next) => {
     let user = req.body.user;
     let password = req.body.password;
     console.log(user, password);
@@ -30,13 +31,13 @@ module.exports.registerUser = async (req, res, next) => {
             res.redirect('/');
         }
     })
-}
+})
 
 module.exports.renderLoginPage = (req, res) => {
     res.render('./user/userLogin.ejs');
 }
 
-module.exports.loginUser = async (req, res, next) => {
+module.exports.loginUser = asyncWrap(async (req, res, next) => {
     let id = req.user._id;
     console.log(id);
     let currentUser = await User.findById(id);
@@ -49,7 +50,7 @@ module.exports.loginUser = async (req, res, next) => {
     }
     req.flash("success", "Logged in");
     res.redirect('/');
-}
+})
 
 module.exports.logOutUser = (req, res, next) => {
     if (!req.isAuthenticated()) {

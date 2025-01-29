@@ -1,9 +1,9 @@
 const User = require('../models/reviews.js');
 const Products = require('../models/Product.js');
 const Reviews = require('../models/reviews.js');
+const asyncWrap = require('../utils/asyncWrap');
 
-
-module.exports.addReview = async (req, res) => {
+module.exports.addReview = asyncWrap(async (req, res) => {
     let review = req.body.review;
     let prodId = req.params.id;
     // console.log(review);
@@ -17,9 +17,9 @@ module.exports.addReview = async (req, res) => {
     await product.save();
     req.flash("success", "review added");
     res.redirect(`/product/${prodId}`);
-}
+})
 
-module.exports.deleteReview = async (req, res) => {
+module.exports.deleteReview = asyncWrap(async (req, res) => {
     let id = req.params.id;
     let prodId = req.params.prodid;
     let review = await Reviews.findById(id).populate("owner");
@@ -32,4 +32,4 @@ module.exports.deleteReview = async (req, res) => {
         req.flash("success", "Review Deleted");
     }
     res.redirect(`/product/${prodId}`);
-}
+})

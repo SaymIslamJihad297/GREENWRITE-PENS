@@ -1,16 +1,17 @@
 const User = require('../models/User');
 const Products = require('../models/Product');
 const { default: mongoose } = require('mongoose');
+const asyncWrap = require('../utils/asyncWrap');
 
 
-module.exports.renderProductDetails = async (req, res) => {
+module.exports.renderProductDetails = asyncWrap(async (req, res) => {
     let id = req.params.id;
     let product = await Products.findById(id).populate({ path: "reviews", populate: "owner" });
     // console.log(product);
     res.render('./details/productDetails.ejs', { product });
-}
+})
 
-module.exports.addItemToCart = async (req, res) => {
+module.exports.addItemToCart = asyncWrap(async (req, res) => {
     let productId = req.params.id;
     let quantity = req.body.quantity;
     if (!req.user) {
@@ -28,10 +29,10 @@ module.exports.addItemToCart = async (req, res) => {
     req.flash("success", "Added to the cart");
     res.redirect(`/product/${productId}`);
 
-}
+})
 
 
-module.exports.renderCart = async (req, res) => {
+module.exports.renderCart = asyncWrap(async (req, res) => {
     if (!req.user) {
         let cartItems = req.session.cart;
         if (cartItems && cartItems.length > 0) {
@@ -72,9 +73,9 @@ module.exports.renderCart = async (req, res) => {
             res.render('./cart/nocart.ejs');
         }
     }
-}
+})
 
-module.exports.removeFromCart = async (req, res) => {
+module.exports.removeFromCart = asyncWrap(async (req, res) => {
     let id = req.params.id;
     if (!req.user) {
         let products = req.session.cart;
@@ -87,4 +88,4 @@ module.exports.removeFromCart = async (req, res) => {
 
     req.flash("success", "Item Removed");
     res.redirect('/cart');
-}
+})
