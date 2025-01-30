@@ -52,43 +52,42 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:8080/auth/google/callback",
-},
-    async (accessToken, refreshToken, profile, done) => {
-        try {
-            // Check if the user already exists in the DB
-            let user = await User.findOne({ googleId: profile.id });
-            if (!user) {
-                let usererName = () => {
-                    let i = 0;
-                    let UserName = "";
-                    while (true) {
-                        if (profile.emails[0].value[i] != "@") {
-                            UserName += profile.emails[0].value[i];
-                            i++;
-                        } else {
-                            return UserName;
-                        }
+}, async (accessToke, refreshToken, profile, done) => {
+    try {
+        // check if the user already exist
+        let user = await User.findOne({ googleId: profile.id });
+        if (!user) {
+            let usererName = () => {
+                let i = 0;
+                let UserName = "";
+                while (true) {
+                    if (profile.emails[0].value[i] != "@") {
+                        UserName += profile.emails[0].value[i];
+                        i++;
+                    } else {
+                        return UserName;
                     }
                 }
-                // If the user does not exist, create a new user
-                user = new User({
-                    name: profile.displayName,
-                    // username: profile.emails[0].value,
-                    username: usererName(),
-                    email: profile.emails[0].value,
-                    googleId: profile.id,
-                    isAdmin: false,
-                });
-                await user.save();
             }
-            return done(null, user);
-        } catch (error) {
-            return done(error, false);
+            user = new User({
+                name: profile.displayName,
+                username: usererName(),
+                email: profile.emails[0].value,
+                googleId: profile.id,
+                isAdmin: false,
+            });
+            await user.save();
         }
-    })
-);
+        return done(null, user);
+    } catch (error) {
+        done(error, false);
+    }
+})
+)
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 passport.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
@@ -99,8 +98,6 @@ passport.deserializeUser(async (id, done) => {
         done(error, null);
     }
 });
-
-
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
@@ -111,17 +108,6 @@ app.use((req, res, next) => {
 
 app.use('/', mainRoutes);
 app.use('/admin', adminRoutes);
-
-
-app.get("/", isAuthenticated, (req, res) => {
-    res.send(`Welcome ${req.user.name}`);
-});
-function isAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/auth/google");
-}
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API);
 app.post("/api/chat", async (req, res) => {

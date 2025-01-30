@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Products = require('../models/Product');
 const asyncWrap = require('../utils/asyncWrap');
+const Reviews = require('../models/reviews');
 const adminPss = process.env.ADMIN_PASSWORD;
 
 module.exports.renderAdminPannel = asyncWrap(async (req, res) => {
@@ -57,6 +58,7 @@ module.exports.addProduct = asyncWrap(async (req, res) => {
 
 module.exports.deleteUser = asyncWrap(async (req, res) => {
     let id = req.params.id;
+    await Reviews.deleteMany({ owner: id });
     await User.findByIdAndDelete(id);
     req.flash("success", "User deleted");
     res.redirect('/admin/allusers');
