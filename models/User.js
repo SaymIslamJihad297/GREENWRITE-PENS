@@ -21,6 +21,10 @@ const userSchema = new Schema({
         type: String,
         unique: true,
     },
+    githubId: {
+        type: String,
+        unique: true,
+    },
     cart: [{
         productId: {
             type: Schema.Types.ObjectId,

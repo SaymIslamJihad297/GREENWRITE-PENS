@@ -71,7 +71,7 @@ module.exports.renderProfile = (req, res) => {
     res.render('./user/profile.ejs');
 }
 
-module.exports.signInWithGoogle = asyncWrap(async (req, res) => {
+module.exports.signInWithAccount = asyncWrap(async (req, res) => {
     if (req.tempCart && req.tempCart.length > 0) {
         let user = await User.findById(req.user.id);
         req.tempCart.forEach((item) => {

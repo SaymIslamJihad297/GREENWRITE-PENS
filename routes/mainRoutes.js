@@ -1,5 +1,5 @@
 const express = require('express');
-const { renderHomePage, renderRegisterPage, registerUser, renderLoginPage, loginUser, logOutUser, renderProfile, signInWithGoogle } = require('../controllers/userController');
+const { renderHomePage, renderRegisterPage, registerUser, renderLoginPage, loginUser, logOutUser, renderProfile, signInWithGoogle, signInWithAccount } = require('../controllers/userController');
 const passport = require('passport');
 const { isLoggedIn, goProfile, preserveCart, isNotLoggedIn } = require('../middleware');
 const { renderProductDetails, addItemToCart, renderCart, removeFromCart } = require('../controllers/detailsController');
@@ -11,8 +11,12 @@ router.get('/', renderHomePage);
 router.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
 }))
-router.get('/auth/google/callback', preserveCart, passport.authenticate('google', { failureRedirect: '/login' }), signInWithGoogle);
+router.get('/auth/google/callback', preserveCart, passport.authenticate('google', { failureRedirect: '/login' }), signInWithAccount);
 
+router.get('/auth/github', passport.authenticate('github', {
+    scope: ['user:email']
+}))
+router.get('/auth/github/callback', preserveCart, passport.authenticate('github', { failureRedirect: '/login' }), signInWithAccount);
 // register user
 router.route('/register')
     .get(isLoggedIn, renderRegisterPage)

@@ -12,6 +12,7 @@ const flash = require('connect-flash');
 const passport = require('passport')
 const localStrategy = require('passport-local');
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GithubStrategy = require("passport-github2").Strategy;
 const methodOverride = require('method-override');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const ExpressError = require('./utils/ExpressError');
@@ -51,7 +52,7 @@ passport.use(new localStrategy(User.authenticate()));
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback",
+    callbackURL: "https://greenwrite-pen.onrender.com/auth/google/callback",
 }, async (accessToke, refreshToken, profile, done) => {
     try {
         // check if the user already exist
@@ -84,8 +85,30 @@ passport.use(new GoogleStrategy({
     }
 })
 )
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+passport.use(new GithubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "https://greenwrite-pen.onrender.com/auth/github/callback",
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        let user = await User.findOne({ githubId: profile.id });
+        if (!user) {
+            user = new User({
+                name: profile.displayName || profile.username,
+                username: profile.username,
+                email: profile.emails[0].value || 'github@gmail.com',
+                githubId: profile.id,
+                isAdmin: false,
+            })
+            await user.save();
+        }
+        return done(null, user);
+    } catch (error) {
+        return done(error, null);
+    }
+}
+))
+
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
