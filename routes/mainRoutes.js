@@ -1,5 +1,5 @@
 const express = require('express');
-const { renderHomePage, renderRegisterPage, registerUser, renderLoginPage, loginUser, logOutUser, renderProfile } = require('../controllers/userController');
+const { renderHomePage, renderRegisterPage, registerUser, renderLoginPage, loginUser, logOutUser, renderProfile, signInWithGoogle } = require('../controllers/userController');
 const passport = require('passport');
 const { isLoggedIn, goProfile, preserveCart, isNotLoggedIn } = require('../middleware');
 const { renderProductDetails, addItemToCart, renderCart, removeFromCart } = require('../controllers/detailsController');
@@ -11,9 +11,7 @@ router.get('/', renderHomePage);
 router.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
 }))
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('/');
-})
+router.get('/auth/google/callback', preserveCart, passport.authenticate('google', { failureRedirect: '/login' }), signInWithGoogle);
 
 // register user
 router.route('/register')

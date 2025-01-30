@@ -70,3 +70,16 @@ module.exports.logOutUser = (req, res, next) => {
 module.exports.renderProfile = (req, res) => {
     res.render('./user/profile.ejs');
 }
+
+module.exports.signInWithGoogle = asyncWrap(async (req, res) => {
+    if (req.tempCart && req.tempCart.length > 0) {
+        let user = await User.findById(req.user.id);
+        req.tempCart.forEach((item) => {
+            user.cart.push(item);
+        })
+        await user.save();
+        delete req.tempCart;
+    }
+    req.flash("success", "Logged In");
+    res.redirect('/');
+})
