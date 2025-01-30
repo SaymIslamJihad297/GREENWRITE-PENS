@@ -96,7 +96,7 @@ passport.use(new GithubStrategy({
             user = new User({
                 name: profile.displayName || profile.username,
                 username: profile.username,
-                email: profile.emails[0].value || 'github@gmail.com',
+                email: (profile.emails && profile.emails[0]?.value) || 'github@gmail.com',
                 githubId: profile.id,
                 isAdmin: false,
             })
